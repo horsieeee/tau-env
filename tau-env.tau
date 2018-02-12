@@ -1,0 +1,22 @@
+imut env = get_env();
+imut defaults = clone(env);
+let interpreter;
+let current_env;
+
+module Env do
+  start_env() do
+    env = env.clone();
+    interpreter = get_eval();
+    current_env = env;
+    return env;
+  end
+  define(sub, subvalue) do
+    env.define(sub, subvalue);
+    return sub;
+  end
+  run(src) do
+    Env().define("IO", IO);
+    Env().define("System", System);
+    interpreter.eval(env, src, 1);
+  end
+end
